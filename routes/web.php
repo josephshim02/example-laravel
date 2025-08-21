@@ -2,23 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
+use Illuminate\Contracts\View\View;
 
-
-Route::get('/', function () {
-    return view('home');
+Route::get(uri: '/', action: function (): View {
+    return view(view: 'home');
 });
 
-Route::get('/jobs', function () {
-    return view('jobs',['jobs'=>Job::all()]);
+Route::get(uri: '/jobs', action: function (): View {
+    $jobs = Job::with(relations: 'employer')->get(); // eager loading
+    //$jobs = Job::all(); // lazy loading
+
+    return view(view: 'jobs',data: ['jobs'=>$jobs]);
 });
 
-Route::get('/jobs/{id}', function ($id) {
+Route::get(uri: '/jobs/{id}', action: function ($id): View {
 
-    $job = Job::find($id);
-    return view('job', [ 'job' => $job ]);
+    $job = Job::find(id: $id);
+    return view(view: 'job', data: [ 'job' => $job ]);
 });
 
-Route::get('/contact', function () {
-    return view('contact');
+Route::get(uri: '/contact', action: function (): View {
+    return view(view: 'contact');
 });
 
