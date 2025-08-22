@@ -9,7 +9,8 @@ Route::get(uri: '/', action: function (): View {
 });
 
 Route::get(uri: '/jobs', action: function (): View {
-    $jobs = Job::with(relations: 'employer')->get(); // eager loading
+    $jobs = Job::with(relations: 'employer')->cursorPaginate(3);
+    //$jobs = Job::with(relations: 'employer')->get(); // eager loading
     //$jobs = Job::all(); // lazy loading
 
     return view(view: 'jobs',data: ['jobs'=>$jobs]);
