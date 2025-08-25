@@ -10,7 +10,7 @@ Route::get(uri: '/', action: function (): View {
 });
 
 Route::get(uri: '/jobs', action: function (): View {
-    $jobs = Job::with(relations: 'employer')->latest()->cursorPaginate(3);
+    $jobs = Job::with(relations: 'employer')->latest()->paginate(3);
     //$jobs = Job::with(relations: 'employer')->get(); // eager loading
     //$jobs = Job::all(); // lazy loading
 
@@ -21,8 +21,12 @@ Route::get(uri: '/jobs', action: function (): View {
 Route::get(uri: '/jobs/create', action: function (): View {
     return view(view: 'jobs.create');
 });
+
 Route::post(uri: '/jobs', action: function (): Redirect {
-    //validation...
+    request()->validate(rules: [
+        'title' => ['required', 'min:3'],
+        'salary' => ['required'],
+    ]);
 
     Job::create(attributes: [
         'title' => request('title'),
