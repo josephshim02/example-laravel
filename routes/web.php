@@ -1,14 +1,21 @@
 <?php
 
-use App\Http\Controllers\JobController;
-use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse as Redirect;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\SessionController;
+use Illuminate\Http\RedirectResponse as Redirect;
+use App\Http\Controllers\RegisteredUserController;
 
 Route::view(uri: '/', view: 'home');
 Route::view(uri: '/contact', view: 'contact');
+
+Route::get('/register', [RegisteredUserController::class, 'create']);
+Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::get('login', [SessionController::class, 'create']);
+Route::post('/login', [RegisteredUserController::class, 'store']);
 
 Route::resource('jobs', JobController::class);
 //This simplifies the below code
