@@ -14,8 +14,9 @@ Route::view(uri: '/contact', view: 'contact');
 
 Route::get('/register', [RegisteredUserController::class, 'create']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::get('login', [SessionController::class, 'create']);
-Route::post('/login', [RegisteredUserController::class, 'store']);
+Route::get('/login', [SessionController::class, 'create']);
+Route::post('/login', [SessionController::class, 'store']);
+Route::post('/logout', [SessionController::class, 'destroy']);
 
 Route::resource('jobs', JobController::class);
 //This simplifies the below code

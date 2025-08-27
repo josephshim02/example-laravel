@@ -36,10 +36,16 @@
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
-            <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
-            @guest
-                <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
-            @endguest
+                @guest
+                    <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
+                    <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
+            	@endguest
+                @auth
+                <form action="/logout" method="POST">
+                    @csrf
+                    <x-form-submit-button>Logout</x-form-submit-button>
+                </form>
+            	@endauth
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
@@ -60,14 +66,21 @@
 
     <el-disclosure id="mobile-menu" hidden class="block md:hidden">
       <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-        <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-        <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-        <x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link>
-        <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
-        <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
-        @guest
-        <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
-        @endguest
+        <div class="flex flex-wrap items-center px-2 pt-2 pb-3 sm:px-3 gap-x-2 gap-y-1">
+            <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
+            <x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link>
+            <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
+            @guest
+                <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
+                <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
+            @endguest
+            @auth
+            <form action="/logout" method="POST" class="inline">
+                @csrf
+                <x-form-submit-button>Logout</x-form-submit-button>
+            </form>
+            @endauth
+        </div>
     </div>
     </el-disclosure>
   </nav>

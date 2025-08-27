@@ -13,9 +13,9 @@
 
       <div class=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <x-form-field>
-          <x-form-label for="email_address">Email address</x-form-label>
-          <x-form-input id="email_address" type="email" name="email_address" placeholder="$100,000" required/>
-          <x-form-error name="email_address"/>
+          <x-form-label for="email">Email address</x-form-label>
+          <x-form-input id="email" type="email" name="email" placeholder="$100,000" :value="old('email')" required/>
+          <x-form-error name="email"/>
         </x-form-field>
         <x-form-field>
           <x-form-label for="password">Password</x-form-label>
