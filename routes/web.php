@@ -1,82 +1,25 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse as Redirect;
 use Illuminate\Support\Facades\Redis;
 
-Route::get(uri: '/', action: function (): View {
-    return view(view: 'home');
-});
+Route::view(uri: '/', view: 'home');
+Route::view(uri: '/contact', view: 'contact');
 
-//Show jobs
-Route::get(uri: '/jobs', action: function (): View {
-    $jobs = Job::with(relations: 'employer')->latest()->paginate(3);
-    //$jobs = Job::with(relations: 'employer')->get(); // eager loading
-    //$jobs = Job::all(); // lazy loading
+Route::resource('jobs', JobController::class);
+//This simplifies the below code
+// Route::controller(JobController::class)->group(function () {
+//     Route::get(uri:'/jobs', action: 'index');
+//     Route::get(uri: '/jobs/create', action: 'create');
+//     Route::post(uri: '/jobs', action: 'store');
+//     Route::get(uri: '/jobs/{job}', action: 'show');
+//     Route::get(uri: '/jobs/{job}/edit', action: 'edit');
+//     Route::patch(uri: '/jobs/{job}', action: 'update');
+//     Route::delete(uri: '/jobs/{job}', action: 'delete');
+// });
 
-    return view(view: 'jobs.index',data: ['jobs'=>$jobs]);
-});
-
-//Create job
-//NEED TO PUT THIS BEFORE THE WILDCARD ID
-Route::get(uri: '/jobs/create', action: function (): View {
-    return view(view: 'jobs.create');
-});
-
-//Store job
-Route::post(uri: '/jobs', action: function (): Redirect {
-    request()->validate(rules: [
-        'title' => ['required', 'min:3'],
-        'salary' => ['required'],
-    ]);
-
-    Job::create(attributes: [
-        'title' => request('title'),
-        'salary' => request('salary'),
-        'employer_id' => 1, //hardcoded for now
-    ]);
-    return redirect(to: '/jobs');
-});
-
-//show one job
-Route::get(uri: '/jobs/{id}', action: function ($id): View {
-    $job = Job::find(id: $id);
-    return view(view: 'jobs.show', data: [ 'job' => $job ]);
-});
-
-//edit job
-Route::get(uri: '/jobs/{id}/edit', action: function ($id): View {
-    $job = Job::find(id: $id);
-    return view(view: 'jobs.edit', data: [ 'job' => $job ]);
-});
-
-//update job
-Route::patch(uri: '/jobs/{id}', action: function ($id): Redirect {
-    request()->validate(rules: [
-        'title' => ['required', 'min:3'],
-        'salary' => ['required'],
-    ]);
-    // authorize (on hold)
-    // update job
-    $job = Job::findOrFail(id: $id); //OrFail handles an invalid id(or use route model binding)
-
-    $job->update(attributes: [
-        'title' => request('title'),
-        'salary' => request('salary'),
-    ]);
-    return redirect(to: "/jobs/{$job->id}");
-});
-
-//delete job
-Route::delete(uri: '/jobs/{id}', action: function ($id): Redirect {
-    // authorize (on hold)
-    $job = Job::findOrFail(id: $id)->delete();
-    return redirect(to: '/jobs');
-});
-
-Route::get(uri: '/contact', action: function (): View {
-    return view(view: 'contact');
-});
 
