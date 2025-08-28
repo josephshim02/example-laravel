@@ -18,16 +18,16 @@ Route::get('/login', [SessionController::class, 'create']);
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
-Route::resource('jobs', JobController::class);
 //This simplifies the below code
-// Route::controller(JobController::class)->group(function () {
-//     Route::get(uri:'/jobs', action: 'index');
-//     Route::get(uri: '/jobs/create', action: 'create');
-//     Route::post(uri: '/jobs', action: 'store');
-//     Route::get(uri: '/jobs/{job}', action: 'show');
-//     Route::get(uri: '/jobs/{job}/edit', action: 'edit');
-//     Route::patch(uri: '/jobs/{job}', action: 'update');
-//     Route::delete(uri: '/jobs/{job}', action: 'delete');
-// });
+//Route::resource('jobs', JobController::class);
+Route::controller(JobController::class)->group(function () {
+    Route::get(uri:'/jobs', action: 'index');
+    Route::get(uri: '/jobs/create', action: 'create')->middleware('auth');
+    Route::post(uri: '/jobs', action: 'store')->middleware('auth');
+    Route::get(uri: '/jobs/{job}', action: 'show');
+    Route::get(uri: '/jobs/{job}/edit', action: 'edit')->middleware('auth')->can('edit', 'job'); // uses the magic binding
+    Route::patch(uri: '/jobs/{job}', action: 'update')->middleware('auth')->can('edit', 'job');
+    Route::delete(uri: '/jobs/{job}', action: 'delete')->middleware('auth')->can('edit', 'job');
+});
 
 

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Job;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
@@ -39,6 +42,7 @@ class JobController extends Controller
     }
 
     public function edit(Job $job) {
+        //Auth::user()->can/cannot() is a thing!
         return view(view: 'jobs.edit', data: [ 'job' => $job ]);
     }
 

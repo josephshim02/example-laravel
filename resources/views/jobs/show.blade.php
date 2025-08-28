@@ -11,12 +11,13 @@
                 <h2 class="text-2xl font-bold text-white mb-4">{{ $job->title }}</h2>
                 <p class="text-gray-300 mb-2"><strong>Salary:</strong> {{ $job->salary }}</p>
             </div>
-
+            @can('edit', $job)
             <div>
                 <p>
                     <x-button href="/jobs/{{ $job->id }}/edit">Edit</x-button>
                 </p>
             </div>
+            @endcan
         </div>
     </div>
 

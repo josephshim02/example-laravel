@@ -48,8 +48,8 @@
             	@endauth
           </div>
         </div>
-        <div class="-mr-2 flex md:hidden">
-          <!-- Mobile menu button -->
+        <!-- <div class="-mr-2 flex md:hidden">
+          Mobile menu button
           <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
@@ -60,29 +60,29 @@
               <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
+        </div> -->
+        <el-disclosure id="mobile-menu" hidden class="block md:hidden">
+          <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+            <div class="flex flex-wrap items-center px-2 pt-2 pb-3 sm:px-3 gap-x-2 gap-y-1">
+                <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
+                <x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link>
+                <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
+                @guest
+                    <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
+                    <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
+                @endguest
+                @auth
+                <form action="/logout" method="POST" class="inline">
+                    @csrf
+                    <x-form-submit-button>Logout</x-form-submit-button>
+                </form>
+                @endauth
+            </div>
         </div>
+        </el-disclosure>
       </div>
     </div>
 
-    <el-disclosure id="mobile-menu" hidden class="block md:hidden">
-      <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-        <div class="flex flex-wrap items-center px-2 pt-2 pb-3 sm:px-3 gap-x-2 gap-y-1">
-            <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-            <x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link>
-            <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
-            @guest
-                <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
-                <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
-            @endguest
-            @auth
-            <form action="/logout" method="POST" class="inline">
-                @csrf
-                <x-form-submit-button>Logout</x-form-submit-button>
-            </form>
-            @endauth
-        </div>
-    </div>
-    </el-disclosure>
   </nav>
 
   <header class="relative bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">
