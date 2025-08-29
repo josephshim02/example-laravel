@@ -47,6 +47,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function employer()
+    {
+        return $this->hasOne(Employer::class);
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class, 'user_id'); // Assuming 'user_id' is the foreign key

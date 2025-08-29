@@ -3,7 +3,13 @@
         Jobs
     </x-slot:title>
     <x-slot:heading>
-        Jobs
+        <div class="flex items-center justify-between">
+            <p class="flex items-center">Jobs</p>
+            @auth
+            <x-button href="/jobs/create" class="ml-4 flex items-center">Post a job</x-button>
+            @endauth
+        </div>
+
     </x-slot:heading>
     <div class="space-y-4">
         @foreach ($jobs as $job)

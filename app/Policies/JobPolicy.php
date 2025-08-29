@@ -10,6 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class JobPolicy
 {
     public function edit(User $user, Job $job):bool{
-        return $job->employer->user->is(Auth::user());
+        return $job->employer->user->is($user);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Http\RedirectResponse as Redirect;
 use App\Http\Controllers\RegisteredUserController;
 
+
 Route::view(uri: '/', view: 'home');
 Route::view(uri: '/contact', view: 'contact');
 
