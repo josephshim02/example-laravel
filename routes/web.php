@@ -8,7 +8,16 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Http\RedirectResponse as Redirect;
 use App\Http\Controllers\RegisteredUserController;
+use App\Jobs\TranslateJob;
 
+Route::get('/test', function() {
+    $job = Job::first();
+    TranslateJob::dispatch($job);
+    // dispatch(function() {
+    //     logger('hello from the queue');
+    // })->delay(5);
+    return "Done";
+});
 
 Route::view(uri: '/', view: 'home');
 Route::view(uri: '/contact', view: 'contact');
